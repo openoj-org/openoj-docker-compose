@@ -1,0 +1,19 @@
+version: '3'
+services:
+  web:
+    image: openoj-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+    restart: on-failure
+  app:
+    image: openoj-backend
+    depends_on:
+      - db
+    restart: on-failure
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: mysql
