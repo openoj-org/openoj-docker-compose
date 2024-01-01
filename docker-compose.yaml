@@ -18,3 +18,20 @@ services:
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: mysql
     restart: on-failure
+  judger:
+    image: judger
+    restart: on-failure
+    ports:
+     - "5001:5001"
+    depends_on:
+      - redis
+    volumes: ['../api:/api']
+  worker:
+    image: celery-worker
+    depends_on:
+      - redis
+    volumes: ['../celery-queue:/queue']
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
